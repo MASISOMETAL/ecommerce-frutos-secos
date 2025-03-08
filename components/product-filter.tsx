@@ -35,7 +35,7 @@ export default function ProductFilter({ products, setFilteredProducts }: Product
   const handleApplyFilters = () => {
     const filteredProducts = products.filter((product) => {
       const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.category);
-      const matchesPrice = product.price >= priceRange;
+      const matchesPrice = product.price <= priceRange;
       return matchesCategory && matchesPrice;
     });
 
