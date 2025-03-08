@@ -13,7 +13,12 @@ const categories = [
   { id: "deshidratados", name: "Frutos Deshidratados" },
 ]
 
-export default function ProductFilter() {
+interface ProductFilterProps {
+  products: { id: number; name: string; category: string; price: number }[];
+  setFilteredProducts: React.Dispatch<React.SetStateAction<{ id: number; name: string; category: string; price: number }[]>>;
+}
+
+export default function ProductFilter({ products, setFilteredProducts }: ProductFilterProps) {
   const [priceRange, setPriceRange] = useState(20)
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
@@ -28,6 +33,13 @@ export default function ProductFilter() {
   }
 
   const handleApplyFilters = () => {
+    const filteredProducts = products.filter((product) => {
+      const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.category);
+      const matchesPrice = product.price >= priceRange;
+      return matchesCategory && matchesPrice;
+    });
+
+    setFilteredProducts(filteredProducts)
     // Here you would implement the actual filtering logic
     console.log("Applying filters:", { priceRange, selectedCategories })
   }
